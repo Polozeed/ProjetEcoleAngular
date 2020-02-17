@@ -1,0 +1,27 @@
+<div class="col-sm-8 col-sm-offset-2">
+  <form [formGroup]="ecoleForm" (ngSubmit)="onSubmitForm()">
+    <div class="form-group">
+      <label for="nom">nom</label>
+      <input type="text" id="nom" class="form-control" formControlName="nom">
+    </div>
+    <div class="form-group">
+      <label for="specialite">Specialite</label>
+      <input type="text" id="specialite" class="form-control" formControlName="specialite">
+    </div>
+    <div class="form-group">
+      <label for="nbEtudiants">Nombres d'etudiants</label>
+      <input type="text" id="nbEtudiants" class="form-control" formControlName="nbEtudiants">
+    </div>
+    <div class="form-group">
+      <label for="adresse">Adresse </label>
+      <input type="text" id="Adresse" class="form-control" formControlName="adresse">
+    </div>
+    <div>
+      <button class="btn btn-primary"
+              (click)="onSave()">Enregistrer Ecole</button>
+
+      <button class="btn btn-primary"
+              (click)="onVoir()">Voir Ecoles</button>
+    </div>
+  </form>
+</div>
