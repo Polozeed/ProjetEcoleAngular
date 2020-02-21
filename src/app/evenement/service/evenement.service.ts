@@ -1,72 +1,67 @@
-import {Subject} from 'rxjs';
+import {Observable, of, pipe, Subject} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Collaborateur} from '../../models/Collaborateur.model';
+import {Evenement} from '../../models/Evenement.model';
+import {Ecole} from '../../models/Ecole.model';
+import {errorObject} from 'rxjs/internal-compatibility';
+import {catchError, map, tap} from 'rxjs/operators';
 
-
+const httpOptions = {
+  headers: new HttpHeaders(
+    {
+      'Content-Type': 'application/json',
+    }
+  )
+};
 
 @Injectable()
-export class AppareilService {
+export class EvenementService {
 
-  appareilsSubject = new Subject<any[]>();
+  eventCache: Evenement;
+  eventSubject = new Subject<Evenement[]>();
+  searchEvent: Evenement[];
+  currentEventEdition: Evenement = null;
+  evenements: Evenement[] = [];
+  constructor(private httpClient: HttpClient) {}
 
-  private appareils = [
-  ];
+  getEventByIntitule(intitule: string) {
 
-  constructor(private httpClient: HttpClient) { }
-
-  emitAppareilSubject() {
-    this.appareilsSubject.next(this.appareils.slice());
-  }
-
-  switchOnAll() {
-    for(let appareil of this.appareils) {
-      appareil.status = 'allumé';
-    }
-    this.emitAppareilSubject();
-  }
-
-  switchOffAll() {
-    for(let appareil of this.appareils) {
-      appareil.status = 'éteint';
-      this.emitAppareilSubject();
-    }
-  }
-
-  switchOnOne(i: number) {
-    this.appareils[i].status = 'allumé';
-    this.emitAppareilSubject();
-  }
-
-  switchOffOne(i: number) {
-    this.appareils[i].status = 'éteint';
-    this.emitAppareilSubject();
-  }
-
-  getAppareilById(id: number) {
-    const appareil = this.appareils.find(
+    const evenement = this.evenements.find(
       (s) => {
-        return s.id === id;
+        return s.intitule === intitule;
       }
     );
-    return appareil;
+    return evenement;
+  }
+  getAdresseByEventAdresseGPS(gps: string) {
+
+    const evenement = this.evenements.find(
+      (s) => {
+        return s.adresse.gps === gps;
+      }
+    );
+    return evenement;
   }
 
-  addAppareil(name: string, status: string) {
-    const appareilObject = {
-      id: 0,
-      name: '',
-      status: ''
-    };
-    appareilObject.name = name;
-    appareilObject.status = status;
-    appareilObject.id = this.appareils[(this.appareils.length - 1)].id + 1;
-    this.appareils.push(appareilObject);
-    this.emitAppareilSubject();
-  }
-
-  saveAppareilsToServer() {
+  saveEventToServer(event: Evenement) {
     this.httpClient
-      .put('https://test-9aba5.firebaseio.com/appareils.json', this.appareils)
+      .post<Evenement>('http://localhost:8083/evenement', event, httpOptions)
+      .subscribe(
+        (eventAvecId) => {
+          this.evenements.push(eventAvecId);
+          console.log('Enregistrement terminé !');
+        },
+        (error) => {
+          console.log(event);
+          console.log('Erreur ! : ' + error);
+        }
+      );
+  }
+
+  deleteEventToServer(event: Evenement) {
+    this.httpClient
+      .delete('http://localhost:8083/evenement/' + event.id)
       .subscribe(
         () => {
           console.log('Enregistrement terminé !');
@@ -77,20 +72,54 @@ export class AppareilService {
       );
   }
 
-  getAppareilsFromServer() {
+  modifierEventToServer(event: Evenement) {
     this.httpClient
-      .get<any[]>('http://localhost:8083/test/martin')
+      .put('http://localhost:8083/evenement/' + event.id, event, httpOptions)
       .subscribe(
-        (response) => {
-          this.appareils = response;
-          this.emitAppareilSubject();
-          console.log(response);
-
+        () => {
+          console.log('Enregistrement terminé !');
+          console.log(event);
         },
         (error) => {
-
+          console.log(event);
           console.log('Erreur ! : ' + error);
         }
       );
   }
+
+  getAllEvents(): Observable<Evenement[]> {
+      return this.httpClient
+        .get<Evenement[]>('http://localhost:8083/evenements', httpOptions)
+        .pipe(
+          tap( evenements => this.evenements = evenements )
+        );
+  }
+
+  getEventsParPage(limit, offset): Observable<Evenement[]> {
+    return this.httpClient
+      .get<Evenement[]>('http://localhost:8083/eventPage/' + limit + '/' + offset, httpOptions)
+      .pipe(
+        tap( evenements => this.evenements = evenements )
+      );
+  }
+
+  searchEventToServer(input): Observable<Evenement[]> {
+    return this.httpClient
+      .get<Evenement[]>('http://localhost:8083/evenement/intitule/' + input, httpOptions)
+      .pipe(
+        tap( event => this.searchEvent = event )
+      );
+  }
+
+  getEventToServerWithId2(id: string): Observable<Evenement> {
+    console.log('je suis dans la fonction getEventById');
+    return this.httpClient
+      .get<Evenement>('http://localhost:8083/evenement/' + id, httpOptions)
+      .pipe(
+        tap( event => this.currentEventEdition = event )
+      );
+
+  }
+
+
 }

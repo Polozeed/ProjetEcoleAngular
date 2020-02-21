@@ -1,71 +1,61 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {CollaborateurService} from '../Service/Collaborateur.service';
+import {ActivatedRoute, Route, Router} from '@angular/router';
+import {CollaborateurService} from '../service/collaborateur.service';
 import {Collaborateur} from '../../models/Collaborateur.model';
+import {Evenement} from '../../models/Evenement.model';
+import {EvenementService} from '../../evenement/service/evenement.service';
+import {Ecole} from '../../models/Ecole.model';
 
 @Component({
   selector: 'app-new-user',
-  templateUrl: './new-collaborateur.component.html',
-  styleUrls: ['./new-collaborateur.component.css']
+  templateUrl: './edit-collaborateur.component.html',
+  styleUrls: ['./edit-collaborateur.component.css']
 })
-export class NewCollaborateurComponent implements OnInit {
+export class EditCollaborateurComponent implements OnInit {
 
-  CollaborateurForm: FormGroup;
+  private collaborateurEnCours: Collaborateur;
+  @Input() id: number;
+  @Input() prenom: string;
+  @Input() nom: string;
+  @Input() fonction: string;
+  @Input() adresseMail: string;
+  @Input() numTel: string;
+  @Input() dateNaissance: Date;
+  @Input() commentaire: string;
+  @Input() type: string;
 
   constructor(private formBuilder: FormBuilder,
               private userService: CollaborateurService,
+              private route: ActivatedRoute,
               private router: Router) { }
 
   ngOnInit() {
-    this.initForm();
+    const id = this.route.snapshot.params.id;
+    this.id = this.userService.getCollabById(id).id;
+    this.nom = this.userService.getCollabById(id).nom;
+    this.prenom = this.userService.getCollabById(id).prenom;
+    this.fonction = this.userService.getCollabById(id).fonction;
+    this.adresseMail = this.userService.getCollabById(id).mail;
+    this.numTel = this.userService.getCollabById(id).numeroTel;
+    this.dateNaissance = this.userService.getCollabById(id).dateNaissance;
+    this.type = this.userService.getCollabById(id).type;
+    this.commentaire = this.userService.getCollabById(id).commentaire;
   }
 
-  initForm() {
-    this.CollaborateurForm = this.formBuilder.group({
-      nom: ['', Validators.required],
-      prenom: ['', Validators.required],
-      fonction: ['', Validators.required],
-      mail: ['', [Validators.required, Validators.email]],
-      dateNaissance: ['', Validators.required],
-      commentaire: ['', Validators.required],
-      type: ['', Validators.required],
-      formation: this.formBuilder.array([])
-    });
+  onModifier() {
+    this.collaborateurEnCours = new Collaborateur(this.id, this.nom, this.prenom,
+      this.fonction, this.adresseMail, this.numTel,
+      this.dateNaissance, this.commentaire, this.type )
+    this.userService.modifierCollabToServer(this.collaborateurEnCours);
+    this.router.navigate(['/collaborateur']);
   }
 
-  onSubmitForm() {
-    const formValue = this.CollaborateurForm.value;
-    const newUser = new Collaborateur(
-      formValue['nom'],
-      formValue['prenom'],
-      formValue['fonction'],
-      formValue['mail'],
-      formValue['numeroTel'],
-      formValue['dateNaissance'],
-      formValue['Type'],
-      formValue['formation'] ? formValue['formation'] : []
-    );
-    this.userService.addUser(newUser);
-    this.router.navigate(['/users']);
+  onDelete() {
+    this.collaborateurEnCours = new Collaborateur(this.id, this.nom, this.prenom,
+      this.fonction, this.adresseMail, this.numTel,
+      this.dateNaissance, this.commentaire, this.type )
+    this.userService.deleteToServer(this.collaborateurEnCours);
+    this.router.navigate(['/collaborateur']);
   }
-
-  getFormation(): FormArray {
-    return this.CollaborateurForm.get('formation') as FormArray;
-  }
-
-  onAddFormation() {
-    const newFormationControl = this.formBuilder.control(null, Validators.required);
-    this.getFormation().push(newFormationControl);
-  }
-
-  onSave() {
-    console.log(this.CollaborateurForm.value);
-    this.userService.saveToServer(this.CollaborateurForm.value);
-  }
-
-  onVoir() {
-    this.userService.getAllPersonne();
-  }
-
 }

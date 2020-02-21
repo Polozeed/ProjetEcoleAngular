@@ -1,51 +1,74 @@
-<div class="col-sm-8 col-sm-offset-2">
-  <form [formGroup]="CollaborateurForm" (ngSubmit)="onSubmitForm()">
-    <div class="form-group">
-      <label for="nom">Prénom</label>
-      <input type="text" id="nom" class="form-control" formControlName="nom">
-    </div>
-    <div class="form-group">
-      <label for="prenom">Nom</label>
-      <input type="text" id="prenom" class="form-control" formControlName="prenom">
-    </div>
-    <div class="form-group">
-      <label for="fonction">Fonction </label>
-      <input type="text" id="fonction" class="form-control" formControlName="fonction">
-    </div>
-    <div class="form-group">
-      <label for="mail">Adresse e-mail</label>
-      <input type="text" id="mail" class="form-control" formControlName="mail">
-    </div>
-    <div>
-      <label for="dateNaissance"> Date de Naissance:</label>
-      <input type="date" id="dateNaissance" name="trip-start"
-             min="1950-01-01" max="2018-12-31" class="form-control" formControlName="dateNaissance">
-    </div>
-    <div class="form-group">
-      <label for="commentaire">Commentaire</label>
-      <input type="text" id="commentaire" class="form-control" formControlName="commentaire">
-    </div>
-    <div class="form-group">
-      <label for="type">Type </label>
-      <select id="type" class="form-control" formControlName="type">
-        <option value="Collaborateur">Collaborateur</option>
-        <option value="Contact">Contact</option>
-      </select>
-    </div>
-    <div formArrayName="formation">
-      <h3> Formations et lien ecoles :</h3>
-      <div class="form-group" *ngFor="let formation of getFormation().controls; let i = index">
-        <input type="text" class="form-control" [formControlName]="i">
-      </div>
-      <button type="button" class="btn btn-success" (click)="onAddFormation()">Ajouter formation</button>
+<body>
+<hr/>
+<h2> Collaborateur : {{ nom }} {{ prenom}} </h2>
+<hr/>
 
-      <button type="submit" class="btn btn-primary" [disabled]="CollaborateurForm.invalid">Soumettre</button>
 
-      <button class="btn btn-primary"
-              (click)="onSave()">Enregistrer collab</button>
+<div class="col-sm-8 col-sm-offset-2 box">
 
-      <button class="btn btn-primary"
-              (click)="onVoir()">Voir Collab</button>
-    </div>
-  </form>
+  <div class="form-group ">
+    <label for="nom">Nom</label>
+    <input [(ngModel)]="nom" class="form-control" id="nom" type="text">
+  </div>
+
+  <div class="form-group ">
+    <label for="nom">Prenom</label>
+    <input [(ngModel)]="prenom" class="form-control" id="prenom" type="text">
+  </div>
+
+
+  <div class="form-group">
+    <label for="fonction">Fonction</label>
+    <input [(ngModel)]="fonction" class="form-control" id="fonction" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="adresseMail">Adresse Mail</label>
+    <input [(ngModel)]="adresseMail" class="form-control" id="adresseMail" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="numTel">Numero de Telephone</label>
+    <input [(ngModel)]="numTel" class="form-control" id="numTel" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="horaireFin">Date de Naissance</label>
+    <input (ngModelChange)="dateNaissance = $event" [ngModel]="dateNaissance | date:'yyyy-MM-dd'"
+           class="form-control"
+           id="horaireFin" type="date">
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea  [(ngModel)]="commentaire" class="form-control" id="description" type="text" style="margin: 0px -2px 0px 0px;height: 84px;"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="type">Type </label>
+    <select class="form-control" id="type">
+      <option value="Collaborateur">Collaborateur</option>
+      <option value="Contact">Contact</option>
+    </select>
+  </div>
 </div>
+</body>
+
+
+
+<footer>
+  <div>
+    <div style="position: relative; float: left;">
+      <button (click)="onDelete()"  class="btn btn-danger ">Supprimer</button>
+    </div>
+    <div style="position: relative; float: right;">
+      <button (click)="onModifier()" class="btn btn-primary center-block ">Soumettre</button>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+

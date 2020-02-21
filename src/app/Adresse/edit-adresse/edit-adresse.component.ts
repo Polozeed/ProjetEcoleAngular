@@ -1,67 +1,54 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CollaborateurService} from '../../Collaborateur/Service/Collaborateur.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Collaborateur} from '../../models/Collaborateur.model';
-import {EcoleService} from '../Service/Ecole.service';
-import {Ecole} from '../../models/Ecole.model';
-import {Evenement} from '../../models/Evenement.model';
-import {EvenementService} from '../../Evenement/Service/evenement.service';
 import {Adresse} from '../../models/Adresse.model';
+import {AdresseService} from '../service/adresseService';
+import {EvenementService} from '../../evenement/service/evenement.service';
 
 @Component({
   selector: 'app-new-ecole',
-  templateUrl: './edit-ecole.component.html',
-  styleUrls: ['./edit-ecole.component.css']
+  templateUrl: './edit-adresse.component.html',
+  styleUrls: ['./edit-adresse.component.css']
 })
-export class EditEcoleComponent implements OnInit {
+export class EditAdresseComponent implements OnInit {
 
+  private adresseEncours: Adresse;
+  @Input() idAdresse: number;
+  @Input() nomRue: string;
+  @Input() numRue: bigint;
+  @Input() nomVille: string;
+  @Input() departement: string;
+  @Input() codePostal: bigint;
+  @Input() pays: string;
+  @Input() gps: string;
+  @Input() nom: string;
 
-
-  constructor(private ecoleService: EcoleService,
+  constructor(private adresseService: AdresseService,
+              private eventService: EvenementService,
               private route: ActivatedRoute,
               private formBuilder: FormBuilder,
-              private router: Router) { }
+              private router: Router) {
 
-
-
-
-  private ecoleEncours: Ecole;
-  ecoleForm: FormGroup;
-
-  @Input() id: null;
-  @Input() nom: string;
-  @Input() nbEtudiant: BigInteger;
-  @Input() adresse: Adresse;
-  @Input() specialite: string;
-  @Input() formation: Set<string>;
-  @Input() contact: Set<Collaborateur>;
-
-
+  }
 
   ngOnInit() {
-    // Recuperation des infos de l'event
-    const id = this.route.snapshot.params['id'];
-    //this.id = this.ecoleService.getEcoleByNom(id).id;
-    this.nom = this.ecoleService.getEcoleByNom(id).nom;
-    this.nbEtudiant = this.ecoleService.getEcoleByNom(id).nbEtudiants;
-    this.specialite = this.ecoleService.getEcoleByNom(id).specialite;
-    this.contact = this.ecoleService.getEcoleByNom(id).contact;
-    this.formation = this.ecoleService.getEcoleByNom(id).formations;
-    this.adresse = this.ecoleService.getEcoleByNom(id).adresse;
+    const id = this.route.snapshot.params.id;
+    this.idAdresse = this.eventService.getAdresseByEventAdresseGPS(id).adresse.idAdresse;
+    this.nomRue = this.eventService.getAdresseByEventAdresseGPS(id).adresse.nomRue;
+    this.numRue = this.eventService.getAdresseByEventAdresseGPS(id).adresse.numRue;
+    this.nomVille = this.eventService.getAdresseByEventAdresseGPS(id).adresse.nomVille;
+    this.departement = this.eventService.getAdresseByEventAdresseGPS(id).adresse.departement;
+    this.codePostal = this.eventService.getAdresseByEventAdresseGPS(id).adresse.codePostal;
+    this.pays = this.eventService.getAdresseByEventAdresseGPS(id).adresse.pays;
+    this.gps = this.eventService.getAdresseByEventAdresseGPS(id).adresse.gps;
+    this.nom = this.eventService.getAdresseByEventAdresseGPS(id).intitule;
   }
-
 
   onEdit() {
-    this.ecoleEncours = new Ecole(this.id, this.nom, this.specialite,
-      this.nbEtudiant, this.adresse, this.formation, this.contact);
-    this.ecoleService.saveEcoleToServer(this.ecoleEncours);
-    this.router.navigate(['/ecole']);
-
+    this.adresseEncours = new Adresse(this.idAdresse, this.nomRue, this.numRue,
+      this.nomVille, this.codePostal,
+      this.departement, this.pays, this.gps);
+    this.adresseService.modifierAdresseToServer(this.adresseEncours);
+    this.router.navigate(['/event']);
   }
-
-  refresh(): void {
-    window.location.reload();
-  }
-
 }

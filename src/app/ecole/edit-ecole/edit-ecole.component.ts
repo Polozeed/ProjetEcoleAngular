@@ -1,55 +1,66 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CollaborateurService} from '../../Collaborateur/Service/Collaborateur.service';
-import {Router} from '@angular/router';
+import {CollaborateurService} from '../../collaborateur/service/collaborateur.service';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Collaborateur} from '../../models/Collaborateur.model';
-import {EcoleService} from '../Service/Ecole.service';
+import {EcoleService} from '../service/ecole.service';
 import {Ecole} from '../../models/Ecole.model';
+import {Evenement} from '../../models/Evenement.model';
+import {EvenementService} from '../../evenement/service/evenement.service';
+import {Adresse} from '../../models/Adresse.model';
 
 @Component({
   selector: 'app-new-ecole',
-  templateUrl: './new-ecole.component.html',
-  styleUrls: ['./new-ecole.component.css']
+  templateUrl: './edit-ecole.component.html',
+  styleUrls: ['./edit-ecole.component.css']
 })
-export class NewEcoleComponent implements OnInit {
+export class EditEcoleComponent implements OnInit {
 
+  private ecoleEncours: Ecole;
   ecoleForm: FormGroup;
+  adresse: Adresse;
+  @Input() idEcole: number;
+  @Input() nom: string;
+  @Input() nbEtudiant: BigInteger;
+  @Input() specialite: string;
+  @Input() formation: Set<string>;
+  @Input() contact: Set<Collaborateur>;
 
-  constructor(private formBuilder: FormBuilder,
-              private ecoleService: EcoleService,
-              private router: Router) { }
+  constructor(private ecoleService: EcoleService,
+              private route: ActivatedRoute,
+              private formBuilder: FormBuilder,
+              private router: Router) {
+
+  }
 
   ngOnInit() {
-    this.initForm();
+    // Recuperation des infos de l'ecole
+    const id = this.route.snapshot.params.id;
+    this.idEcole = this.ecoleService.getEcoleByNom(id).idEcole;
+    this.nom = this.ecoleService.getEcoleByNom(id).nom;
+    this.nbEtudiant = this.ecoleService.getEcoleByNom(id).nbEtudiants;
+    this.specialite = this.ecoleService.getEcoleByNom(id).specialite;
+    this.contact = this.ecoleService.getEcoleByNom(id).contact;
+    this.formation = this.ecoleService.getEcoleByNom(id).formations;
+    this.adresse = this.ecoleService.getEcoleByNom(id).adresse;
+
+    console.log(this.adresse);
   }
 
-  initForm() {
-    this.ecoleForm = this.formBuilder.group({
-      nom: ['', Validators.required],
-      specialite: ['', Validators.required],
-      nbEtudiants: ['', Validators.required],
-      adresse: ['', Validators.required]
-    });
-  }
-
-  onSubmitForm() {
-    const formValue = this.ecoleForm.value;
-    const newEcole = new Ecole(
-      formValue['nom'],
-      formValue['specialite'],
-      formValue['nbEtudiants'],
-      formValue['adresse'],
-    );
-    this.ecoleService.addEcole(newEcole);
+  onEdit() {
+    this.ecoleEncours = new Ecole(this.idEcole, this.nom, this.specialite, this.nbEtudiant, this.adresse, this.formation, this.contact);
+    console.log(this.ecoleEncours);
+    this.ecoleService.modifierEcoleToServer(this.ecoleEncours);
     this.router.navigate(['/ecole']);
   }
-  onSave() {
-    console.log(this.ecoleForm.value);
-    this.ecoleService.saveEcoleToServer(this.ecoleForm.value);
+
+  onDelete() {
+    this.ecoleEncours = new Ecole(this.idEcole, this.nom, this.specialite, this.nbEtudiant, this.adresse, this.formation, this.contact);
+    this.ecoleService.deleteEcoleToServer(this.ecoleEncours);
+    this.router.navigate(['/ecole']);
   }
 
-  onVoir() {
-    this.ecoleService.getAllEcole();
+  refresh(): void {
+    window.location.reload();
   }
-
 }

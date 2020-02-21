@@ -1,58 +1,74 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CollaborateurService} from '../../Collaborateur/Service/Collaborateur.service';
-import {Router} from '@angular/router';
-import {Collaborateur} from '../../models/Collaborateur.model';
-import {EcoleService} from '../Service/Ecole.service';
-import {Ecole} from '../../models/Ecole.model';
+
+import {ActivatedRoute, Router} from '@angular/router';
+import {AdresseService} from '../service/adresseService';
 import {Adresse} from '../../models/Adresse.model';
+import {Evenement} from '../../models/Evenement.model';
+import {EvenementService} from '../../evenement/service/evenement.service';
+import {Observable, of} from 'rxjs';
+import {async} from '@angular/core/testing';
+import {catchError, map, tap} from 'rxjs/operators';
+import {element} from 'protractor';
+import {assembleBoundTextPlaceholders} from '@angular/compiler/src/render3/view/i18n/util';
 
 @Component({
-  selector: 'app-new-ecole',
-  templateUrl: './new-ecole.component.html',
-  styleUrls: ['./new-ecole.component.css']
+  selector: 'app-new-adresse',
+  templateUrl: './new-adresse.component.html',
+  styleUrls: ['./new-adresse.component.css']
 })
-export class NewEcoleComponent implements OnInit {
+export class NewAdresseComponent implements OnInit {
 
-  ecoleForm: FormGroup;
+  adresseEnCours: Adresse;
+  eventEnCours: Evenement;
+
+  nomRue: string;
+  numRue: bigint;
+  nomVille: string;
+  departement: string;
+  codePostal: bigint;
+  pays: string;
+  gps: string;
+  nom: string;
 
   constructor(private formBuilder: FormBuilder,
-              private ecoleService: EcoleService,
+              private adresseService: AdresseService,
+              private eventService: EvenementService,
+              private route: ActivatedRoute,
               private router: Router) { }
 
   ngOnInit() {
-    this.initForm();
+    const id = this.route.snapshot.params.idEvent;
+    this.eventService.getEventToServerWithId2(id).subscribe(event => this.eventEnCours = event);
   }
 
-  initForm() {
-    this.ecoleForm = this.formBuilder.group({
-      nom: ['', Validators.required],
-      specialite: ['', Validators.required],
-      nbEtudiants: ['', Validators.required],
-      adresse: ['', Validators.required]
-    });
-  }
-/*
-  onSubmitForm() {
-    const formValue = this.ecoleForm.value;
-    const newEcole = new Ecole(
-      formValue['nom'],
-      formValue['specialite'],
-      formValue['nbEtudiants'],
-      formValue['Adresse'],
+  onSaveNewAdresse() {
+    this.adresseEnCours = new Adresse(0, this.nomRue,
+      this.numRue, this.nomVille, this.codePostal, this.departement, this.pays, this.gps);
+    this.adresseService.saveAdresseServer(this.adresseEnCours).subscribe(
+      adresse => {
+        console.log('addre :' + adresse);
+        this.onEditEventEnCours(adresse);
+      }
     );
-    this.ecoleService.addEcole(newEcole);
-    this.router.navigate(['/ecole']);
   }
 
- */
-  onSave() {
-    console.log(this.ecoleForm.value);
-    this.ecoleService.saveEcoleToServer(this.ecoleForm.value);
+  onEditEventEnCours(resultatAdrese: Adresse) {
+    const eventRetour: Evenement = new Evenement(this.eventEnCours.id, this.eventEnCours.intitule, resultatAdrese,
+      this.eventEnCours.horaireDebut, this.eventEnCours.horaireFin, this.eventEnCours.description, this.eventEnCours.couleur);
+    this.eventService.modifierEventToServer(eventRetour);
+    this.retourEvenement(1);
   }
 
-  onVoir() {
-    this.ecoleService.getAllEcole();
+  retourEvenement(type: number) {
+    if ( typeof(type) === 'undefined' ) {
+      this.router.navigate(['/event/' + this.eventEnCours.intitule]);
+    } else {
+      this.router.navigate(['/event/']);
+    }
+
+
   }
+
 
 }

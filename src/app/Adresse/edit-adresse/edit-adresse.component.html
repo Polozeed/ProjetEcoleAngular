@@ -1,45 +1,53 @@
 <body>
 <hr />
-<h2 > Information Ecole : {{ nom }} </h2>
+<h2 > Modification Adresse : {{ numRue + ' ' + nomRue  + ' ' + nomVille  + ' ' + codePostal }} </h2>
 <hr />
+
 <div class="col-sm-8 col-sm-offset-2">
   <div class="form-group">
-    <label for="nom">Nom</label>
-    <input type="text" id="nom" [(ngModel)]="nom" class="form-control" >
-  </div>
-  <div class="form-group">
-    <label for="specialite">Specialite</label>
-    <input type="text" id="specialite"  [(ngModel)]="specialite" class="form-control" >
-  </div>
-  <div class="form-group">
-    <label for="nbEtudiant">Nombre Etudiants</label>
-    <input type="text" id="nbEtudiant"  [(ngModel)]="nbEtudiant" class="form-control" >
-  </div>
-  <div class="form-group">
-    <label for="adresse">Adresse</label>
-    <input type="text"  disabled="disabled" id="adresse"  [(ngModel)]="adresse.numRue +' ' + adresse.nomRue  +' ' + adresse.nomVille  +' ' + adresse.codePostal  +' ' + adresse.pays" class="form-control" >
-    <button class="btn btn-primary"
-            (click)="Avoir()">Modifier Adresse</button>
-  </div>
-  <div class="form-group">
-    <label for="gps">GPS</label>
-    <input type="text" id="gps"  [(ngModel)]="adresse.gps " class="form-control" >
-  </div>
-  <div class="form-group">
-    <label for="formation">Formations</label>
-    <input type="text" id="formation"  [(ngModel)]="formation" class="form-control" >
-  </div>
-  <div class="form-group">
-    <label for="contact">Contact</label>
-    <input type="text" id="contact"  [(ngModel)]="contact" class="form-control" >
+    <label for="nom">Numero de Rue</label>
+    <input type="text" id="nom" [(ngModel)]="numRue" class="form-control" >
   </div>
 
-  <div>
-    <button class="btn btn-primary"
-            (click)="onEdit()">Soumettre</button>
+  <div class="form-group">
+    <label for="specialite">Rue</label>
+    <input type="text" id="specialite"  [(ngModel)]="nomRue" class="form-control" >
   </div>
+
+  <div class="form-group">
+    <label for="ville">Ville</label>
+    <input type="text" id="ville"  [(ngModel)]="nomVille" class="form-control" >
+  </div>
+
+  <div class="form-group">
+    <label for="departement">Departement</label>
+    <input type="text" id="departement"  [(ngModel)]="departement" class="form-control" >
+  </div>
+
+  <div class="form-group">
+    <label for="codePostal">Code Postal</label>
+    <input type="text" id="codePostal" [(ngModel)]="codePostal " class="form-control" >
+  </div>
+
+  <div class="form-group">
+    <label for="pays">Pays</label>
+    <input type="text" id="pays" [(ngModel)]="pays" class="form-control" >
+  </div>
+
+  <div class="form-group">
+    <label for="gps">Coordonnées GPS</label>
+    <input type="text" id="gps"  [(ngModel)]="gps" class="form-control" >
+  </div>
+
+<div>
+  <div style="position: relative; float: left;">
+    <button class="btn btn-primary" onClick="javascript:window.history.go(-1)">Retour</button>
+  </div>
+  <div style="position: relative; float: right;">
+    <button class="btn btn-primary"  (click)="onEdit() ">Enregistrer</button>
+  </div>
+</div>
 
 
 </div>
-
 </body>

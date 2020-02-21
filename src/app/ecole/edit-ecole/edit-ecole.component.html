@@ -1,27 +1,51 @@
-<div class="col-sm-8 col-sm-offset-2">
-  <form [formGroup]="ecoleForm" (ngSubmit)="onSubmitForm()">
-    <div class="form-group">
-      <label for="nom">nom</label>
-      <input type="text" id="nom" class="form-control" formControlName="nom">
-    </div>
-    <div class="form-group">
-      <label for="specialite">Specialite</label>
-      <input type="text" id="specialite" class="form-control" formControlName="specialite">
-    </div>
-    <div class="form-group">
-      <label for="nbEtudiants">Nombres d'etudiants</label>
-      <input type="text" id="nbEtudiants" class="form-control" formControlName="nbEtudiants">
-    </div>
-    <div class="form-group">
-      <label for="adresse">Adresse </label>
-      <input type="text" id="Adresse" class="form-control" formControlName="adresse">
-    </div>
-    <div>
-      <button class="btn btn-primary"
-              (click)="onSave()">Enregistrer Ecole</button>
+<body>
+<hr/>
+<h2> Information Ecole : {{ nom }} </h2>
+<hr/>
 
-      <button class="btn btn-primary"
-              (click)="onVoir()">Voir Ecoles</button>
-    </div>
-  </form>
+<div class="col-sm-8 col-sm-offset-2">
+  <div class="form-group">
+    <label for="nom">Nom</label>
+    <input [(ngModel)]="nom" class="form-control" id="nom" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="specialite">Specialite</label>
+    <input [(ngModel)]="specialite" class="form-control" id="specialite" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="nbEtudiant">Nombre Etudiants</label>
+    <input [(ngModel)]="nbEtudiant" class="form-control" id="nbEtudiant" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="formation">Formations</label>
+    <input [(ngModel)]="formation" class="form-control" id="formation" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="contact">Contact</label>
+    <input [(ngModel)]="contact" class="form-control" id="contact" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="adresse">Adresse</label>
+    <input
+      [(ngModel)]="adresse.numRue +' ' + adresse.nomRue  +' ' + adresse.nomVille  +' ' + adresse.codePostal  +' ' + adresse.pays"
+      class="form-control" disabled="disabled" id="adresse" type="text">
+    <button class="btn btn-primary" routerLink="{{adresse.gps}}">Modifier</button>
+  </div>
+
+  <div class="form-group">
+    <label for="gps">GPS</label>
+    <input [(ngModel)]="adresse.gps " class="form-control" id="gps" type="text">
+  </div>
+
+  <div>
+    <button (click)="onEdit()" class="btn btn-primary">Soumettre</button>
+    <button (click)="onDelete()" class="btn btn-danger">Supprimer</button>
+  </div>
+
 </div>
+</body>
