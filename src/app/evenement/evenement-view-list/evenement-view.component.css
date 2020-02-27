@@ -1,0 +1,11 @@
+.list-group-item {
+  color: black;
+}
+
+.list-group-item:hover {
+  color: dodgerblue;
+}
+
+.btn-primary {
+  float: right;
+}

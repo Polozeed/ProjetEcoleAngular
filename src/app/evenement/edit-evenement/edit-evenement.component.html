@@ -1,0 +1,74 @@
+<body xmlns="http://www.w3.org/1999/html">
+<hr/>
+<h2>Evenement : {{ intitule }} </h2>
+<hr/>
+
+
+<div class="col-sm-8 col-sm-offset-2">
+
+  <div class="form-group">
+    <label for="intitule">Intitule</label>
+    <input [(ngModel)]="intitule" class="form-control" id="intitule" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea [(ngModel)]="description" class="form-control" id="description"
+              style="margin: 0px -2px 0px 0px;height: 84px;" type="text"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="horaireDebut">Horaire de Debut</label>
+    <input (ngModelChange)="horaireDebut = $event" [ngModel]="horaireDebut | date:'yyyy-MM-ddTHH:mm'"
+           class="form-control" id="horaireDebut" type="datetime-local">
+  </div>
+
+
+  <div class="form-group">
+    <label for="horaireFin">Horaire de Fin</label>
+    <input (ngModelChange)="horaireFin = $event" [ngModel]="horaireFin | date:'yyyy-MM-ddTHH:mm'"
+           class="form-control" id="horaireFin" type="datetime-local">
+  </div>
+
+  <div *ngIf="adresse != null; else adresseNul" class="form-group form-inline">
+    <label for="adresse">Adresse</label>
+    <div>
+      <input [(ngModel)]="adresse.numRue + ' '  + adresse.nomRue + ' '  + adresse.nomVille + ' '  + adresse.pays"
+             class="form-control" disabled="disabled" id="adresse" style="width: 650px;" type="text">
+      <button class="btn btn-primary" routerLink="{{adresse.gps}}">Modifier</button>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="typeCouleur" id="labelCouleur">Couleur Agenda </label>
+    <select class="form-control" id="typeCouleur">
+      <option value="blue">Bleu</option>
+      <option value="yellow">Jaune</option>
+      <option value="red">Rouge</option>
+      <option value="green">Vert</option>
+    </select>
+  </div>
+
+  <ng-template #adresseNul>
+    <button class="btn btn-primary" routerLink="new-adresse/{{id}}">Ajouter Adresse</button>
+  </ng-template>
+
+</div>
+</body>
+
+<footer>
+  <div>
+    <div style="position: relative; float: left;">
+      <button (click)="delete_confirm()" class="btn btn-danger ">Supprimer</button>
+    </div>
+    <div style="position: relative; float: right;">
+      <button (click)="onModifier()" class="btn btn-primary center-block ">Soumettre</button>
+    </div>
+  </div>
+
+</footer>
+
+
+
+
+

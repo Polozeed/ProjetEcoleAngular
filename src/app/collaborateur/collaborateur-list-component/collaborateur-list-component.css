@@ -1,0 +1,35 @@
+a.top {
+  position: fixed;
+}
+
+.list-group-item {
+  color: black;
+
+}
+
+.list-group-item:hover {
+  color: dodgerblue;
+}
+
+.btn-primary {
+  float: right;
+}
+
+.list-group-item {
+  display: block;
+  width: 380px;
+  float: left;
+  text-align: center;
+}
+
+.list-group-item[float="left"] + li {
+  display: block;
+  float: none;
+}
+
+.list-group-item[float="left"] + li + li {
+  display: block;
+  float: none;
+}
+
+

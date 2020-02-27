@@ -1,0 +1,37 @@
+<body>
+
+<h2> Espace Ecoles
+  <button class="btn btn-secondary" routerLink="/new-ecole" type="button">Nouvelle Ecole</button>
+</h2>
+<hr/>
+
+<div>
+  <form>
+    <input [(ngModel)]="input" class="form-control" id="input" name="input" placeholder="rechercher Ecole par :">
+    <div class="btn-group btn-group-justified">
+      <a (click)="rechercheEcoleParIntitule(input)" class="btn btn-primary">Intitule</a>
+      <a (click)="rechercheEcoleParFormation(input)" class="btn btn-primary">Formation</a>
+      <a (click)="rechercheEcoleParNvEtude(input)" class="btn btn-primary">Niveau etude</a>
+      <a (click)="rechercheEcoleParAdresse(input)" class="btn btn-primary">Adresse</a>
+    </div>
+  </form>
+  <li *ngFor="let re of resEcole | async" class="list-group-item" routerLink="{{re.nom }}">
+    <h4> {{ re.nom}} {{ re.adresse.nomVille }}</h4>
+  </li>
+</div>
+
+<div>
+  <ul class="list-group">
+    <li *ngFor="let ecole of ecoles | async" class="list-group-item" routerLink="{{ecole.nom }}">
+      <h4 class="UneEcole">{{ ecole.nom}} {{ ecole.specialite }}</h4>
+      <p>Nombre etudiants : {{ ecole.nbEtudiants }}</p>
+    </li>
+  </ul>
+</div>
+
+<br/>
+<hr/>
+
+<hr/>
+</body>
+

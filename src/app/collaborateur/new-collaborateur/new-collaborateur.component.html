@@ -1,0 +1,57 @@
+<body>
+<hr/>
+<h2> Nouveau Collaborateur : {{ nom }} {{ prenom}} </h2>
+<hr/>
+<div class="col-sm-8 col-sm-offset-2 box">
+  <div class="form-group">
+    <label for="nom">Nom</label>
+    <input [(ngModel)]="nom" class="form-control" id="nom" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="prenom">Prenom</label>
+    <input [(ngModel)]="prenom" class="form-control" id="prenom" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="fonction">Fonction</label>
+    <input [(ngModel)]="fonction" class="form-control" id="fonction" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="adresseMail">Adresse Mail</label>
+    <input [(ngModel)]="adresseMail" class="form-control" id="adresseMail" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="numTel">Numero de Telephone</label>
+    <input [(ngModel)]="numTel" class="form-control" id="numTel" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="commmentaire">Commentaire</label>
+    <input [(ngModel)]="commentaire" class="form-control" id="commmentaire" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="horaireFin">Date de Naissance</label>
+    <input (ngModelChange)="dateNaissance = $event" [ngModel]="dateNaissance | date:'yyyy-MM-dd'" class="form-control"
+           id="horaireFin" type="date">
+  </div>
+
+  <div class="form-group">
+    <label for="type">Type </label>
+    <select class="form-control" id="type">
+      <option value="Collaborateur">Collaborateur</option>
+      <option value="Contact">Contact</option>
+    </select>
+  </div>
+
+  <div>
+    <button (click)="onAjouter()"
+            class="btn btn-primary">Soumettre
+    </button>
+  </div>
+</div>
+</body>
+

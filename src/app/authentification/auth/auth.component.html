@@ -1,0 +1,12 @@
+<h2>Authentification</h2>
+<button (click)="onSignIn()" *ngIf="!authStatus" class="btn btn-success">Se connecter</button>
+<button (click)="onSignOut()" *ngIf="authStatus" class="btn btn-danger">Se déconnecter</button>
+
+<br>
+<br>
+<div class="alert alert-info"> Bonjour et bienvenue sur votre portail des relations Apside Top/ Ecoles d'ingenieurs.<br><br>
+  Si vous constatez un problème de dysfonctionnement
+  fonctionnel sur ce portail vous pouvez nous en faire part à l’adresse <strong><a
+    href="mailto:mcourierdemere.1605@apside-groupe.com">mcourierdemere.1605@apside-groupe.com</a></strong>.<br><br>
+  Bonne journée.<br><br> L’équipe Support Projet.
+</div>

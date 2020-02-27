@@ -1,0 +1,31 @@
+.box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px 2em;
+}
+
+.box :first-child {
+  align-self: center;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-top: 50px;
+  height: 50px;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  margin-left: 200px;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  margin-right: 615px;
+}

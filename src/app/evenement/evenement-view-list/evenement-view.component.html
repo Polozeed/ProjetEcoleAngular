@@ -1,0 +1,52 @@
+<body>
+
+<h2> Espace Evenements test martin
+  <a class="btn btn-primary" routerLink="/edit">Nouveau Event</a>
+</h2>
+
+
+<div>
+  <input (keyup)="rechercheEvent($event)" class="form-control" placeholder="rechercher Evenement">
+  <li *ngFor="let re of resSearch | async" class="list-group-item">
+    <h4> {{ re.intitule}} {{ re.description }}</h4>
+    <button routerLink="{{re.intitule }}">Voir</button>
+  </li>
+</div>
+
+<hr/>
+<ul class="list-group">
+  <li *ngFor="let event of evenements | async " class="list-group-item" routerLink="{{event.intitule}}">
+    <h4>{{  event.intitule}}</h4>
+    <p>{{ event.horaireDebut | date:'fullDate':'+0200':'fr' }}  /
+      {{ event.horaireFin | date:'fullDate':'+0200':'fr' }}</p>
+    <p>Description: {{ (event.description.length > 100) ?
+      (event.description | slice:0:100)
+      + '...' : (event.description) }}</p>
+  </li>
+</ul>
+
+
+<nav aria-label="navigation">
+  <ul class="pager center-block radio-inline">
+    <li><a (click)="pagePrecedente()" title="Précédent">Précédent</a></li>
+    <li><a (click)="pageSuivante()" title="Suivant">Suivant</a></li>
+  </ul>
+
+  <div class="panel panel-primary" id="panelInformations">
+    <div class="panel-heading">
+      <label (click)="selectionneNbElementAffichage()" class="radio-inline "><input checked id="opt5" name="optradio"
+                                                                                    type="radio"> 5</label>
+      <label (click)="selectionneNbElementAffichage()" class="radio-inline"><input id="opt10" name="optradio"
+                                                                                   type="radio">10</label>
+      <label (click)="selectionneNbElementAffichage()" class="radio-inline"><input id="opt25" name="optradio"
+                                                                                   type="radio">25</label>
+      <label class="radio-inline bottom-left" style="  float: right;"> {{pageEnCours}}/{{totalPageMax}}</label>
+    </div>
+  </div>
+
+</nav>
+
+<hr/>
+</body>
+
+

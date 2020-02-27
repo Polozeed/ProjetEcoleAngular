@@ -1,0 +1,29 @@
+<div class="col-sm-8 col-sm-offset-2">
+
+  <div class="form-group">
+    <label for="nom">nom</label>
+    <input class="form-control" formControlName="nom" id="nom" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="specialite">Specialite</label>
+    <input class="form-control" formControlName="specialite" id="specialite" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="nbEtudiants">Nombres d'etudiants</label>
+    <input class="form-control" formControlName="nbEtudiants" id="nbEtudiants" type="text">
+  </div>
+
+  <div class="form-group">
+    <label for="adresse">Adresse </label>
+    <input class="form-control" formControlName="adresse" id="Adresse" type="text">
+  </div>
+
+  <div>
+    <button (click)="onSave()" class="btn btn-primary">Enregistrer Ecole</button>
+    <button (click)="onVoir()" class="btn btn-primary">Voir Ecoles
+    </button>
+  </div>
+
+</div>
