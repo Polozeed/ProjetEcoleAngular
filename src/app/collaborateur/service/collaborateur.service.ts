@@ -2,12 +2,8 @@ import { Collaborateur } from '../../models/Collaborateur.model';
 import {Observable, of, range, Subject} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {errorObject} from 'rxjs/internal-compatibility';
 import {map, tap} from 'rxjs/operators';
-import {Evenement} from '../../models/Evenement.model';
 
-import {consoleTestResultHandler} from 'tslint/lib/test';
-import {Ecole} from '../../models/Ecole.model';
 
 const httpOptions = {
   headers: new HttpHeaders(
@@ -21,11 +17,11 @@ const httpOptions = {
 export class CollaborateurService {
 
   private collabs: Collaborateur[] = [];
-  userSubject = new Subject<Collaborateur[]>();
   private searchCollabs: Collaborateur[];
+  nbCollabs = 0;
+  userSubject = new Subject<Collaborateur[]>();
 
-  constructor(private httpClient: HttpClient) {
-  }
+  constructor(private httpClient: HttpClient) {}
 
   emitUsers() {
     this.userSubject.next(this.collabs.slice());
@@ -80,7 +76,6 @@ export class CollaborateurService {
           console.log('Suppression terminé !');
         },
         (error) => {
-          console.log(collaborateur);
           console.log('Erreur ! : ' + error);
         }
       );
@@ -92,17 +87,14 @@ export class CollaborateurService {
       .subscribe(
         () => {
           console.log('Enregistrement terminé !');
-          console.log(collab);
         },
         (error) => {
-          console.log(collab);
           console.log('Erreur ! : ' + error);
         }
       );
   }
 
   getCollabById(nom: string) {
-
     const collab = this.collabs.find(
       (s) => {
         return s.nom === nom;
@@ -125,5 +117,9 @@ export class CollaborateurService {
       .pipe(
         tap( collaborateurs => this.collabs = collaborateurs )
       );
+  }
+
+  getNbCollabs(): Observable<number> {
+    return this.httpClient.get<number>('http://localhost:8083/nbEvenement', httpOptions);
   }
 }

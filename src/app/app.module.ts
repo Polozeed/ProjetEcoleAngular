@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {Component, NgModule} from '@angular/core';
 import { AppComponent } from './app.component';
 import { EditEvenementComponent } from './evenement/edit-evenement/edit-evenement.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -25,11 +25,12 @@ import {NewAdresseComponent} from './Adresse/new-adresse/new-adresse.component';
 import {AdresseService} from './Adresse/service/adresseService';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import {DemoComponent} from './evenement/agenda/agenda';
+import {AgendaComponent} from './evenement/agenda/agenda';
 import {FlatpickrModule} from 'angularx-flatpickr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {CommonModule} from '@angular/common';
+
 
 
 const appRoutes: Routes = [
@@ -44,7 +45,7 @@ const appRoutes: Routes = [
   { path: 'collaborateur/:id', component: EditCollaborateurComponent },
   { path: 'new-ecole', component: NewEcoleComponent },
   { path: 'ecole', component: EcoleComponent },
-  { path: 'test', component: DemoComponent },
+  { path: 'agenda', component: AgendaComponent },
   { path: 'ecole/:id', component: EditEcoleComponent },
   { path: 'ecole/:id/:id', component: EditAdresseComponent },
   { path: 'new-adresse', component: NewAdresseComponent },
@@ -68,7 +69,8 @@ const appRoutes: Routes = [
     NewEcoleComponent,
     EditAdresseComponent,
     NewAdresseComponent,
-    DemoComponent,
+    AgendaComponent,
+
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import {Observable, of, pipe, Subject} from 'rxjs';
+import {Observable, of, pipe, Subject, Subscription} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Collaborateur} from '../../models/Collaborateur.model';
@@ -6,6 +6,7 @@ import {Evenement} from '../../models/Evenement.model';
 import {Ecole} from '../../models/Ecole.model';
 import {errorObject} from 'rxjs/internal-compatibility';
 import {catchError, map, tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 const httpOptions = {
   headers: new HttpHeaders(
@@ -23,7 +24,11 @@ export class EvenementService {
   searchEvent: Evenement[];
   currentEventEdition: Evenement = null;
   evenements: Evenement[] = [];
-  constructor(private httpClient: HttpClient) {}
+  nbEvent: number;
+  eventWithAdresse: Evenement;
+
+  constructor(private httpClient: HttpClient,
+              private router: Router) {}
 
   getEventByIntitule(intitule: string) {
 
@@ -51,12 +56,22 @@ export class EvenementService {
         (eventAvecId) => {
           this.evenements.push(eventAvecId);
           console.log('Enregistrement terminé !');
+          this.eventWithAdresse = eventAvecId;
         },
         (error) => {
           console.log(event);
           console.log('Erreur ! : ' + error);
         }
       );
+  }
+
+  saveEventToServerWithAdresse(event: Evenement): Observable<Evenement> {
+    return this.httpClient
+      .post<Evenement>('http://localhost:8083/evenement', event, httpOptions)
+      .pipe(
+        tap( eventWithId => this.eventWithAdresse = eventWithId )
+      );
+
   }
 
   deleteEventToServer(event: Evenement) {
@@ -119,6 +134,10 @@ export class EvenementService {
         tap( event => this.currentEventEdition = event )
       );
 
+  }
+
+  getNbEvenements(): Observable<number> {
+   return this.httpClient.get<number>('http://localhost:8083/nbEvenement', httpOptions);
   }
 
 

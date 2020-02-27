@@ -1,11 +1,9 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, of, Subject} from 'rxjs';
-import {errorObject} from 'rxjs/internal-compatibility';
 import {Adresse} from '../../models/Adresse.model';
 import {EvenementService} from '../../evenement/service/evenement.service';
 import {tap} from 'rxjs/operators';
-import {Evenement} from '../../models/Evenement.model';
 
 const httpOptions = {
   headers: new HttpHeaders(

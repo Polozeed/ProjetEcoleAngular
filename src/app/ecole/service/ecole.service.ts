@@ -1,12 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Collaborateur} from '../../models/Collaborateur.model';
 import {Observable, of, Subject} from 'rxjs';
-import {errorObject} from 'rxjs/internal-compatibility';
 import {Ecole} from '../../models/Ecole.model';
-import {Evenement} from '../../models/Evenement.model';
 import {tap} from 'rxjs/operators';
-
 
 const httpOptions = {
   headers: new HttpHeaders(
@@ -23,8 +19,7 @@ export class EcoleService {
   searchEcole: Ecole[];
   ecoleSubject = new Subject<Ecole[]>();
 
-  constructor(private httpClient: HttpClient) {
-  }
+  constructor(private httpClient: HttpClient) {}
 
   emitEcoles() {
     this.ecoleSubject.next(this.ecoles.slice());
@@ -34,6 +29,7 @@ export class EcoleService {
     this.ecoles.push(ecole);
     this.emitEcoles();
   }
+
   saveEcoleToServer(ecole: Ecole) {
     this.httpClient
       .post('http://localhost:8083/ecole', ecole, httpOptions)
@@ -47,6 +43,7 @@ export class EcoleService {
         }
       );
   }
+
   modifierEcoleToServer(ecole: Ecole) {
     this.httpClient
       .put('http://localhost:8083/ecole/' + ecole.idEcole, ecole, httpOptions)
@@ -61,6 +58,7 @@ export class EcoleService {
         }
       );
   }
+
   deleteEcoleToServer(ecole: Ecole) {
     this.httpClient
       .delete('http://localhost:8083/ecole/' + ecole.idEcole)
@@ -95,6 +93,7 @@ export class EcoleService {
       return of(this.ecoles);
     }
   }
+
   searchToServerWithIntitule( input): Observable<Ecole[]> {
     return this.httpClient
       .get<Ecole[]>('http://localhost:8083/ecole/nom/' + input)
@@ -103,6 +102,7 @@ export class EcoleService {
       );
 
   }
+
   searchToServerWithFormation( input): Observable<Ecole[]> {
     return this.httpClient
       .get<Ecole[]>('http://localhost:8083/ecole/formation/' + input)
@@ -110,6 +110,7 @@ export class EcoleService {
         tap(ecoles => this.ecoles = ecoles)
       );
   }
+
   searchToServerWithNvEtude( input): Observable<Ecole[]> {
     return this.httpClient
       .get<Ecole[]>('http://localhost:8083/ecole/niveauEtude/' + input)
@@ -117,6 +118,7 @@ export class EcoleService {
         tap(ecoles => this.ecoles = ecoles)
       );
   }
+
   searchToServerWithAdresse( input): Observable<Ecole[]> {
     return this.httpClient
       .get<Ecole[]>('http://localhost:8083/ecole/adresse/' + input)

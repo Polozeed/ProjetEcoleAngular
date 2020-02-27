@@ -1,34 +1,44 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {CollaborateurService} from '../service/collaborateur.service';
 import {Collaborateur} from '../../models/Collaborateur.model';
-import {Evenement} from '../../models/Evenement.model';
-import {EvenementService} from '../../evenement/service/evenement.service';
-import {Ecole} from '../../models/Ecole.model';
 
 @Component({
   selector: 'app-new-user',
   templateUrl: './edit-collaborateur.component.html',
   styleUrls: ['./edit-collaborateur.component.css']
 })
+
 export class EditCollaborateurComponent implements OnInit {
 
   private collaborateurEnCours: Collaborateur;
-  @Input() id: number;
-  @Input() prenom: string;
-  @Input() nom: string;
-  @Input() fonction: string;
-  @Input() adresseMail: string;
-  @Input() numTel: string;
-  @Input() dateNaissance: Date;
-  @Input() commentaire: string;
-  @Input() type: string;
+
+  id: number;
+  prenom: string;
+  nom: string;
+  fonction: string;
+  adresseMail: string;
+  numTel: string;
+  dateNaissance: Date;
+  commentaire: string;
+  type: string;
 
   constructor(private formBuilder: FormBuilder,
               private userService: CollaborateurService,
               private route: ActivatedRoute,
               private router: Router) { }
+
+  collabForm = this.formBuilder.group({
+    nom: ['', Validators.required],
+    prenom: ['', Validators.required],
+    fonction: ['', Validators.required],
+    adresseMail: ['', [Validators.required, Validators.email]],
+    numTel: ['', [Validators.required, Validators.minLength(8)]],
+    dateNaissance: ['', Validators.required],
+    commentaire: [''],
+    type: ['', Validators.required]
+  });
 
   ngOnInit() {
     const id = this.route.snapshot.params.id;
@@ -42,6 +52,7 @@ export class EditCollaborateurComponent implements OnInit {
     this.type = this.userService.getCollabById(id).type;
     this.commentaire = this.userService.getCollabById(id).commentaire;
   }
+
 
   onModifier() {
     this.collaborateurEnCours = new Collaborateur(this.id, this.nom, this.prenom,
