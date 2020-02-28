@@ -41,7 +41,8 @@
 
   <div class="form-group">
     <label for="description">Description</label>
-    <textarea  [(ngModel)]="commentaire" class="form-control" id="description" type="text" style="margin: 0px -2px 0px 0px;height: 84px;" formControlName="commentaire"></textarea>
+    <textarea [(ngModel)]="commentaire" class="form-control" formControlName="commentaire"
+              id="description" style="margin: 0px -2px 0px 0px;height: 84px;" type="text"></textarea>
   </div>
 
   <div class="form-group">
@@ -51,12 +52,10 @@
       <option value="contact">Contact</option>
     </select>
   </div>
+
 </div>
 </form>
 </body>
-
-
-
 
 <footer>
   <div>

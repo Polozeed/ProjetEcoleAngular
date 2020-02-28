@@ -17,6 +17,7 @@ export class EcoleService {
 
   private ecoles: Ecole[] = [];
   searchEcole: Ecole[];
+  nbEcoles = 0;
   ecoleSubject = new Subject<Ecole[]>();
 
   constructor(private httpClient: HttpClient) {}
@@ -100,7 +101,6 @@ export class EcoleService {
       .pipe(
         tap(ecoles => this.ecoles = ecoles)
       );
-
   }
 
   searchToServerWithFormation( input): Observable<Ecole[]> {
@@ -119,11 +119,23 @@ export class EcoleService {
       );
   }
 
-  searchToServerWithAdresse( input): Observable<Ecole[]> {
+  searchToServerWithAdresse(input): Observable<Ecole[]> {
     return this.httpClient
       .get<Ecole[]>('http://localhost:8083/ecole/adresse/' + input)
       .pipe(
         tap(ecoles => this.ecoles = ecoles)
       );
+  }
+
+  getEcolesParPage(limit, offset): Observable<Ecole[]> {
+    return this.httpClient
+      .get<Ecole[]>('http://localhost:8083/ecolesPage/' + limit + '/' + offset, httpOptions)
+      .pipe(
+        tap(ecoles => this.ecoles = ecoles)
+      );
+  }
+
+  getNbEcoles(): Observable<number> {
+    return this.httpClient.get<number>('http://localhost:8083/nbEcoles', httpOptions);
   }
 }

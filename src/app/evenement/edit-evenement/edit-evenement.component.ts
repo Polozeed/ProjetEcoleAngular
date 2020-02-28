@@ -31,7 +31,6 @@ export class EditEvenementComponent implements OnInit {
   }
 
   ngOnInit() {
-
     const id = this.route.snapshot.params.id;
     this.id = this.eventService.getEventByIntitule(id).id;
     this.intitule = this.eventService.getEventByIntitule(id).intitule;

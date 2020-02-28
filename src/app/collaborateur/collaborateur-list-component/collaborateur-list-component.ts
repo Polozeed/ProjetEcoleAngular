@@ -33,6 +33,7 @@ export class CollaborateurListComponent implements OnInit {
   }
 
   pageSuivante() {
+    this.pageEnCours = this.pageEnCours + 1;
     if (this.pageEnCours <= this.totalPageMax) {
       this.offset = this.offset + this.limit;
       this.collabs = this.userService.getCollabParPage(this.limit, this.offset);

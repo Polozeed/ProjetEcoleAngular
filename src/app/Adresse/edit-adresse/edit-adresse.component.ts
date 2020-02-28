@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Adresse} from '../../models/Adresse.model';
 import {AdresseService} from '../service/adresseService';
@@ -13,22 +13,21 @@ import {EvenementService} from '../../evenement/service/evenement.service';
 export class EditAdresseComponent implements OnInit {
 
   private adresseEncours: Adresse;
-  @Input() idAdresse: number;
-  @Input() nomRue: string;
-  @Input() numRue: bigint;
-  @Input() nomVille: string;
-  @Input() departement: string;
-  @Input() codePostal: bigint;
-  @Input() pays: string;
-  @Input() gps: string;
-  @Input() nom: string;
+  idAdresse: number;
+  nomRue: string;
+  numRue: bigint;
+  nomVille: string;
+  departement: string;
+  codePostal: bigint;
+  pays: string;
+  gps: string;
+  nom: string;
 
   constructor(private adresseService: AdresseService,
               private eventService: EvenementService,
               private route: ActivatedRoute,
               private formBuilder: FormBuilder,
               private router: Router) {
-
   }
 
   ngOnInit() {

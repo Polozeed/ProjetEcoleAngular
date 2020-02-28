@@ -1,16 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AdresseService} from '../service/adresseService';
 import {Adresse} from '../../models/Adresse.model';
 import {Evenement} from '../../models/Evenement.model';
 import {EvenementService} from '../../evenement/service/evenement.service';
-import {Observable, of} from 'rxjs';
-import {async} from '@angular/core/testing';
-import {catchError, map, tap} from 'rxjs/operators';
-import {element} from 'protractor';
-import {assembleBoundTextPlaceholders} from '@angular/compiler/src/render3/view/i18n/util';
+
 
 @Component({
   selector: 'app-new-adresse',
@@ -47,7 +42,6 @@ export class NewAdresseComponent implements OnInit {
       this.numRue, this.nomVille, this.codePostal, this.departement, this.pays, this.gps);
     this.adresseService.saveAdresseServer(this.adresseEnCours).subscribe(
       adresse => {
-        console.log('addre :' + adresse);
         this.onEditEventEnCours(adresse);
       }
     );
@@ -66,9 +60,6 @@ export class NewAdresseComponent implements OnInit {
     } else {
       this.router.navigate(['/event/']);
     }
-
-
   }
-
 
 }

@@ -38,10 +38,13 @@ export class EvenementViewComponent implements OnInit, OnDestroy {
   }
 
   pageSuivante() {
-    this.pageEnCours = this.pageEnCours + 1;
     if (this.pageEnCours <= this.totalPageMax) {
+      this.pageEnCours = this.pageEnCours + 1;
       this.offset = this.offset + this.limit;
       this.evenements = this.eventService.getEventsParPage(this.limit, this.offset);
+    } else {
+      // @ts-ignore
+      document.getElementById('suivant').disabled = false;
     }
   }
 
@@ -50,7 +53,8 @@ export class EvenementViewComponent implements OnInit, OnDestroy {
       this.pageEnCours = this.pageEnCours - 1;
       this.offset = this.offset - this.limit;
       this.evenements = this.eventService.getEventsParPage(this.limit, this.offset);
-    } else {
+      // @ts-ignore
+      document.getElementById('precedent').disabled = '';
     }
   }
 
@@ -68,7 +72,6 @@ export class EvenementViewComponent implements OnInit, OnDestroy {
   }
 
   selectionneNbElementAffichage() {
-
     // @ts-ignore
     if (document.getElementById('opt5').checked) {
       this.limit = 5;

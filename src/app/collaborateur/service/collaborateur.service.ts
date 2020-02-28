@@ -1,8 +1,8 @@
-import { Collaborateur } from '../../models/Collaborateur.model';
-import {Observable, of, range, Subject} from 'rxjs';
+import {Collaborateur} from '../../models/Collaborateur.model';
+import {Observable, Subject} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {map, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 
 
 const httpOptions = {
@@ -120,6 +120,6 @@ export class CollaborateurService {
   }
 
   getNbCollabs(): Observable<number> {
-    return this.httpClient.get<number>('http://localhost:8083/nbEvenement', httpOptions);
+    return this.httpClient.get<number>('http://localhost:8083/nbCollabs', httpOptions);
   }
 }

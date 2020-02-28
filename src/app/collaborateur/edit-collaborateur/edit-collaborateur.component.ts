@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import {ActivatedRoute, Route, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CollaborateurService} from '../service/collaborateur.service';
 import {Collaborateur} from '../../models/Collaborateur.model';
 
@@ -13,7 +13,6 @@ import {Collaborateur} from '../../models/Collaborateur.model';
 export class EditCollaborateurComponent implements OnInit {
 
   private collaborateurEnCours: Collaborateur;
-
   id: number;
   prenom: string;
   nom: string;
@@ -30,6 +29,7 @@ export class EditCollaborateurComponent implements OnInit {
               private router: Router) { }
 
   collabForm = this.formBuilder.group({
+    id: [''],
     nom: ['', Validators.required],
     prenom: ['', Validators.required],
     fonction: ['', Validators.required],
@@ -51,8 +51,8 @@ export class EditCollaborateurComponent implements OnInit {
     this.dateNaissance = this.userService.getCollabById(id).dateNaissance;
     this.type = this.userService.getCollabById(id).type;
     this.commentaire = this.userService.getCollabById(id).commentaire;
+    console.log(this.collabForm);
   }
-
 
   onModifier() {
     this.collaborateurEnCours = new Collaborateur(this.id, this.nom, this.prenom,

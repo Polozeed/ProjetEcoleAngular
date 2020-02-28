@@ -1,4 +1,4 @@
-import DateTimeFormat = Intl.DateTimeFormat;
+
 
 export class Collaborateur {
 
@@ -12,6 +12,5 @@ export class Collaborateur {
     public dateNaissance: Date,
     public commentaire: string,
     public type: string,
-
   ) {}
 }

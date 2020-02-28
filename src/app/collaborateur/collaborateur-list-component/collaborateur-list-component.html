@@ -3,13 +3,15 @@
 <h2> Espace Collaborateur
   <a class="btn btn-primary" routerLink="/new-collab"
      type="button">Nouveau Collaborateur</a></h2>
-
 <div>
-  <input (keyup)="rechercheCollab($event)" class="form-control" placeholder="rechercher Collaborateur">
-  <li *ngFor="let re of resUserSearch | async" class="list-group-item " routerLink="{{re.nom }}">
-    <h4>{{ re.prenom}} {{ re.nom }}</h4>
-  </li>
+  <ul>
+    <input (keyup)="rechercheCollab($event)" class="form-control" placeholder="rechercher Collaborateur">
+    <li *ngFor="let re of resUserSearch | async" class="list-group-item " routerLink="{{re.nom }}">
+      <h4>{{ re.prenom}} {{ re.nom }}</h4>
+    </li>
+  </ul>
 </div>
+
 <hr/>
 
 <ul class="list-group">
@@ -19,42 +21,27 @@
   </li>
 </ul>
 
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br><br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
-<nav aria-label="navigation">
-  <ul class="pager center-block radio-inline">
-    <li><a (click)="pagePrecedente()" id="precedent" title="Précédent">Précédent</a></li>
-    <li><a (click)="pageSuivante()" id="suivant" title="Suivant">Suivant</a></li>
-  </ul>
-
-
-  <div class="panel panel-primary" id="panelInformations">
-    <div class="panel-heading">
-      <label (click)="selectionneNbAffichage()" class="radio-inline ">
-        <input checked id="opt5" name="optradio" type="radio"> 9</label>
-      <label (click)="selectionneNbAffichage()" class="radio-inline">
-        <input id="opt10" name="optradio" type="radio">18</label>
-      <label (click)="selectionneNbAffichage()" class="radio-inline">
-        <input id="opt25" name="optradio" type="radio">36</label>
-      <label class="radio-inline bottom-left" style="  float: right;"> {{pageEnCours}}/{{totalPageMax}}</label>
-    </div>
-  </div>
-</nav>
 </body>
+
+<footer>
+  <nav aria-label="navigation">
+    <ul class="pager center-block radio-inline">
+      <li><a (click)="pagePrecedente()" id="precedent" title="Précédent">Précédent</a></li>
+      <li><a (click)="pageSuivante()" id="suivant" title="Suivant">Suivant</a></li>
+    </ul>
+    <div class="panel panel-primary" id="panelInformations">
+      <div class="panel-heading">
+        <label (click)="selectionneNbAffichage()" class="radio-inline ">
+          <input checked id="opt5" name="optradio" type="radio"> 9</label>
+        <label (click)="selectionneNbAffichage()" class="radio-inline">
+          <input id="opt10" name="optradio" type="radio">18</label>
+        <label (click)="selectionneNbAffichage()" class="radio-inline">
+          <input id="opt25" name="optradio" type="radio">36</label>
+        <label class="radio-inline bottom-left" style="  float: right;"> {{pageEnCours}}/{{totalPageMax}}</label>
+      </div>
+    </div>
+  </nav>
+</footer>
 
 
 
