@@ -1,6 +1,4 @@
-import DateTimeFormat = Intl.DateTimeFormat;
 import {Adresse} from './Adresse.model';
-import {Collaborateur} from './Collaborateur.model';
 
 export class Ecole {
 
@@ -10,7 +8,5 @@ export class Ecole {
     public specialite: string,
     public nbEtudiants: BigInteger,
     public adresse: Adresse,
-    public formations: Set<string>,
-    public contact: Set<Collaborateur>,
   ) {}
 }

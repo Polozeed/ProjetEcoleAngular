@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EvenementService} from '../service/evenement.service';
 import {Evenement} from '../../models/Evenement.model';
@@ -14,7 +14,10 @@ import DateTimeFormat = Intl.DateTimeFormat;
 })
 export class NewEvenementComponent implements OnInit {
 
-  EventForm: FormGroup;
+
+  registerForm: FormGroup;
+  submitted = false;
+
   id: null;
   intitule: string;
   adresse: Adresse;
@@ -31,25 +34,49 @@ export class NewEvenementComponent implements OnInit {
               private router: Router) {
   }
 
+  get f() {
+    return this.registerForm.controls;
+  }
+
   ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      intitule: ['', Validators.required],
+      description: [''],
+      horaireDebut: ['', Validators.required],
+      horaireFin: ['', Validators.required],
+    });
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    if (this.registerForm.invalid) {
+      return;
+    }
+    return true;
+  }
+
+  onReset() {
+    this.submitted = false;
+    this.registerForm.reset();
   }
 
   onAjouter() {
-    this.eventEncours = new Evenement(this.id, this.intitule, this.adresse, this.horaireDebut,
-      this.horaireFin, this.description, this.couleur);
-    this.appareilService.saveEventToServer(this.eventEncours);
-    this.router.navigate(['/event/']);
+    if (this.onSubmit() === true) {
+      this.appareilService.saveEventToServer(this.registerForm.value);
+      this.router.navigate(['/event/']);
+    }
   }
 
   demandeAjoutAdresse() {
-    if (confirm('Voulez vous ajouter une adresse?')) {
-      this.ajoutAdresse();
+    if (this.onSubmit() === true) {
+      if (confirm('Voulez vous ajouter une adresse?')) {
+        this.ajoutAdresse();
+      }
     }
   }
 
   ajoutAdresse() {
-    this.eventEncours = new Evenement(this.id, this.intitule, this.adresse, this.horaireDebut,
-      this.horaireFin, this.description, this.couleur);
+    this.eventEncours = this.registerForm.value;
     this.appareilService.eventWithAdresse = this.eventEncours;
     this.appareilService.saveEventToServerWithAdresse(this.eventEncours)
       .subscribe(
@@ -57,5 +84,4 @@ export class NewEvenementComponent implements OnInit {
           this.router.navigate(['/event/' + eventAvecId.intitule + '/new-adresse/' + eventAvecId.id]);
         });
   }
-
 }

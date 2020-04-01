@@ -15,10 +15,12 @@ const httpOptions = {
 @Injectable()
 export class EcoleService {
 
+  currentEcoleEdition: Ecole = null;
   private ecoles: Ecole[] = [];
   searchEcole: Ecole[];
   nbEcoles = 0;
   ecoleSubject = new Subject<Ecole[]>();
+  ecoleWithId: Ecole;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -137,5 +139,21 @@ export class EcoleService {
 
   getNbEcoles(): Observable<number> {
     return this.httpClient.get<number>('http://localhost:8083/nbEcoles', httpOptions);
+  }
+
+  saveEcoleToServerWithAdresse(ecole: Ecole): Observable<Ecole> {
+    return this.httpClient
+      .post<Ecole>('http://localhost:8083/ecole', ecole, httpOptions)
+      .pipe(
+        tap(ecoleWithId => this.ecoleWithId = ecoleWithId)
+      );
+  }
+
+  getEcoleToServerWithId(id: string): Observable<Ecole> {
+    return this.httpClient
+      .get<Ecole>('http://localhost:8083/ecole/' + id, httpOptions)
+      .pipe(
+        tap(ecole => this.currentEcoleEdition = ecole)
+      );
   }
 }

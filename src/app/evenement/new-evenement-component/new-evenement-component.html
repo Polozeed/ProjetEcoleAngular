@@ -2,45 +2,72 @@
 <hr/>
 <h2> Nouveau Evenement : {{ intitule }} </h2>
 <hr/>
+
 <div class="col-sm-8 col-sm-offset-2">
-  <div class="form-group">
-    <label for="intitule">Intitule</label>
-    <input [(ngModel)]="intitule" class="form-control" id="intitule" type="text">
-  </div>
+  <form (ngSubmit)="onSubmit() " [formGroup]="registerForm">
 
-  <div class="form-group">
-    <label for="description">Description</label>
-    <input [(ngModel)]="description" class="form-control" id="description" type="text">
-  </div>
+    <div class="form-group">
+      <label>Nom</label>
+      <input [ngClass]="{ 'is-invalid': submitted && f.intitule.errors }" class=" form-control" class="form-control"
+             formControlName="intitule"
+             type="text">
+      <div *ngIf="submitted && f.intitule.errors" class="invalid-feedback">
+        <div *ngIf="f.intitule.errors.required" style="color: red">Un nom d'ecole est neccessaire</div>
+      </div>
+    </div>
 
-  <div class="form-group">
-    <label for="horaireDebut">Horaire de Debut</label>
-    <input (ngModelChange)="horaireDebut = $event" [ngModel]="horaireDebut | date:'yyyy-MM-ddTHH:mm'"
-           class="form-control" id="horaireDebut" type="datetime-local">
-  </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea [ngClass]="description"
+                class="form-control" formControlName="description"
+                style="margin: 0px -2px 0px 0px;height: 84px;" type="text"></textarea>
+    </div>
 
-  <div class="form-group">
-    <label for="horaireFin">Horaire de Fin</label>
-    <input (ngModelChange)="horaireFin = $event" [ngModel]="horaireFin | date:'yyyy-MM-ddTHH:mm'" class="form-control"
-           id="horaireFin" type="datetime-local">
-  </div>
+    <div class="form-group">
+      <label>horaire de debut</label>
+      <input [ngClass]="{ 'is-invalid': submitted && f.horaireDebut.errors }"
+             [ngModel]="horaireDebut | date:'yyyy-MM-ddTHH:mm'" class="form-control"
+             formControlName="horaireDebut"
+             type="datetime-local"/>
+      <div *ngIf="submitted && f.horaireDebut.errors" class="invalid-feedback">
+        <div *ngIf="f.horaireDebut.errors.required" style="color: red">horaire : 'yyyy-MM-ddTHH:mm'"</div>
+      </div>
+    </div>
 
-  <div class="form-group">
-    <label for="typeCouleur" id="labelCouleur">Couleur Agenda </label>
-    <select class="form-control" id="typeCouleur">
-      <option value="blue">Bleu</option>
-      <option value="yellow">Jaune</option>
-      <option value="red">Rouge</option>
-      <option value="green">Vert</option>
-    </select>
-  </div>
+    <div class="form-group">
+      <label>horaire de Fin</label>
+      <input [ngClass]="{ 'is-invalid': submitted && f.horaireFin.errors }"
+             [ngModel]="horaireFin | date:'yyyy-MM-ddTHH:mm'" class="form-control"
+             formControlName="horaireFin"
+             type="datetime-local"/>
+      <div *ngIf="submitted && f.horaireFin.errors" class="invalid-feedback">
+        <div *ngIf="f.horaireFin.errors.required" style="color: red">horaire : 'yyyy-MM-ddTHH:mm'"</div>
+      </div>
+    </div>
 
-  <div class="list-inline">
-    <button (click)="onAjouter()" class="btn btn-primary">Ajouter</button>
-    <button (click)="demandeAjoutAdresse()" class="btn btn-primary addAdresse" style="float: right">Ajouter avec adresse
-    </button>
-  </div>
+    <div class="form-group">
+      <label for="typeCouleur" id="labelCouleur">Couleur Agenda </label>
+      <select class="form-control" id="typeCouleur">
+        <option value="blue">Bleu</option>
+        <option value="yellow">Jaune</option>
+        <option value="red">Rouge</option>
+        <option value="green">Vert</option>
+      </select>
+    </div>
 
+    <div class="form-group">
+      <button (click)="demandeAjoutAdresse()" class="btn btn-primary addAdresse">Ajouter avec adresse</button>
+    </div>
+
+    <div class="text-center">
+      <button (click)="onAjouter()" class="btn btn-primary mr-1">Enregister</button>
+      <button (click)="onReset()" class="btn btn-secondary" type="reset">Annuler</button>
+    </div>
+
+  </form>
 </div>
 </body>
+
+
+
 

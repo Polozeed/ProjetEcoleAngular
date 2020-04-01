@@ -32,15 +32,20 @@ export class EditAdresseComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.params.id;
-    this.idAdresse = this.eventService.getAdresseByEventAdresseGPS(id).adresse.idAdresse;
-    this.nomRue = this.eventService.getAdresseByEventAdresseGPS(id).adresse.nomRue;
-    this.numRue = this.eventService.getAdresseByEventAdresseGPS(id).adresse.numRue;
-    this.nomVille = this.eventService.getAdresseByEventAdresseGPS(id).adresse.nomVille;
-    this.departement = this.eventService.getAdresseByEventAdresseGPS(id).adresse.departement;
-    this.codePostal = this.eventService.getAdresseByEventAdresseGPS(id).adresse.codePostal;
-    this.pays = this.eventService.getAdresseByEventAdresseGPS(id).adresse.pays;
-    this.gps = this.eventService.getAdresseByEventAdresseGPS(id).adresse.gps;
-    this.nom = this.eventService.getAdresseByEventAdresseGPS(id).intitule;
+
+    this.adresseService.getAdresseById(id).subscribe(adresse => {
+      console.log(adresse);
+      console.log('e suis la ');
+      this.idAdresse = adresse.idAdresse;
+      this.nomRue = adresse.nomRue;
+      this.numRue = adresse.numRue;
+      this.nomVille = adresse.nomVille;
+      this.departement = adresse.departement;
+      this.codePostal = adresse.codePostal;
+      this.pays = adresse.pays;
+      this.gps = adresse.gps;
+    });
+
   }
 
   onEdit() {

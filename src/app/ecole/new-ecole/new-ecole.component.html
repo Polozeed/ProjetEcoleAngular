@@ -1,29 +1,50 @@
+<body>
+<hr/>
+<h2> Nouvelle Ecole :</h2>
+<hr/>
+
 <div class="col-sm-8 col-sm-offset-2">
+  <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
 
-  <div class="form-group">
-    <label for="nom">nom</label>
-    <input class="form-control" formControlName="nom" id="nom" type="text">
-  </div>
+    <div class="form-group">
+      <label>Nom</label>
+      <input [ngClass]="{ 'is-invalid': submitted && f.nom.errors }" class=" form-control" class="form-control"
+             formControlName="nom"
+             type="text">
+      <div *ngIf="submitted && f.nom.errors" class="invalid-feedback">
+        <div *ngIf="f.nom.errors.required" style="color: red">Un nom d'ecole est neccessaire</div>
+      </div>
+    </div>
 
-  <div class="form-group">
-    <label for="specialite">Specialite</label>
-    <input class="form-control" formControlName="specialite" id="specialite" type="text">
-  </div>
+    <div class="form-group">
+      <label>Specialité</label>
+      <input [ngClass]="{ 'is-invalid': submitted && f.specialite.errors }" class="form-control"
+             formControlName="specialite"
+             type="text"/>
+      <div *ngIf="submitted && f.specialite.errors" class="invalid-feedback">
+        <div *ngIf="f.specialite.errors.required" style="color: red">Renseigner une spécialité</div>
+      </div>
+    </div>
 
-  <div class="form-group">
-    <label for="nbEtudiants">Nombres d'etudiants</label>
-    <input class="form-control" formControlName="nbEtudiants" id="nbEtudiants" type="text">
-  </div>
+    <div class="form-group">
+      <label>Nombre d'etudiants</label>
+      <input [ngClass]="{ 'is-invalid': submitted && f.nbEtudiants.errors }" class="form-control"
+             formControlName="nbEtudiants" type="text"/>
+      <div *ngIf="submitted && f.nbEtudiants.errors" class="invalid-feedback">
+        <div *ngIf="f.nbEtudiants.errors.required" style="color: red">Renseigner un nombre d'etudiants</div>
+      </div>
+    </div>
 
-  <div class="form-group">
-    <label for="adresse">Adresse </label>
-    <input class="form-control" formControlName="adresse" id="Adresse" type="text">
-  </div>
+    <div class="form-group">
+      <button (click)="demandeAjoutAdresse()" class="btn btn-primary addAdresse">Ajouter avec adresse</button>
+    </div>
 
-  <div>
-    <button (click)="onSave()" class="btn btn-primary">Enregistrer Ecole</button>
-    <button (click)="onVoir()" class="btn btn-primary">Voir Ecoles
-    </button>
-  </div>
+    <div class="text-center">
+      <button (click)="onSave()" class="btn btn-primary mr-1">Enregister</button>
+      <button (click)="onReset()" class="btn btn-secondary" type="reset">Annuler</button>
+    </div>
 
+  </form>
 </div>
+</body>
+

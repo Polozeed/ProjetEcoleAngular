@@ -47,8 +47,9 @@ const appRoutes: Routes = [
   {path: 'ecole/:id/:id', component: EditAdresseComponent},
   {path: 'new-adresse', component: NewAdresseComponent},
   {path: 'event/:id/new-adresse/:idEvent', component: NewAdresseComponent},
-  { path: 'not-found', component: QuatreCentQuatreComponent },
-  { path: '**', redirectTo: 'not-found' },
+  {path: 'ecole/:id/new-adresse/:idEcole', component: NewAdresseComponent},
+  {path: 'not-found', component: QuatreCentQuatreComponent},
+  {path: '**', redirectTo: 'not-found'},
 ];
 @NgModule({
   declarations: [

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CollaborateurService} from '../service/collaborateur.service';
 import {Collaborateur} from '../../models/Collaborateur.model';
@@ -11,8 +11,9 @@ import {Collaborateur} from '../../models/Collaborateur.model';
   styleUrls: ['./new-collaborateur.component.css']
 })
 export class NewCollaborateurComponent implements OnInit {
+  registerForm: FormGroup;
+  submitted = false;
 
-  CollaborateurForm: FormGroup;
   id: null;
   prenom: string;
   nom: string;
@@ -30,7 +31,34 @@ export class NewCollaborateurComponent implements OnInit {
               private router: Router) {
   }
 
+  get f() {
+    return this.registerForm.controls;
+  }
+
   ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      nom: ['', Validators.required],
+      prenom: ['', Validators.required],
+      fonction: ['', Validators.required],
+      adresseMail: ['', Validators.email],
+      numTel: ['', Validators.min(8)],
+      dateNaissance: ['', Validators.required],
+      commentaire: ['', Validators.required],
+      type: ['', Validators.required],
+    });
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    if (this.registerForm.invalid) {
+      return;
+    }
+    return true;
+  }
+
+  onReset() {
+    this.submitted = false;
+    this.registerForm.reset();
   }
 
   onAjouter() {

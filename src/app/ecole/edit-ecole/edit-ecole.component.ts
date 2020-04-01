@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Collaborateur} from '../../models/Collaborateur.model';
 import {EcoleService} from '../service/ecole.service';
@@ -34,19 +34,17 @@ export class EditEcoleComponent implements OnInit {
     this.nom = this.ecoleService.getEcoleByNom(id).nom;
     this.nbEtudiant = this.ecoleService.getEcoleByNom(id).nbEtudiants;
     this.specialite = this.ecoleService.getEcoleByNom(id).specialite;
-    this.contact = this.ecoleService.getEcoleByNom(id).contact;
-    this.formation = this.ecoleService.getEcoleByNom(id).formations;
     this.adresse = this.ecoleService.getEcoleByNom(id).adresse;
   }
 
   onEdit() {
-    this.ecoleEncours = new Ecole(this.idEcole, this.nom, this.specialite, this.nbEtudiant, this.adresse, this.formation, this.contact);
+    this.ecoleEncours = new Ecole(this.idEcole, this.nom, this.specialite, this.nbEtudiant, this.adresse);
     this.ecoleService.modifierEcoleToServer(this.ecoleEncours);
     this.router.navigate(['/ecole']);
   }
 
   onDelete() {
-    this.ecoleEncours = new Ecole(this.idEcole, this.nom, this.specialite, this.nbEtudiant, this.adresse, this.formation, this.contact);
+    this.ecoleEncours = new Ecole(this.idEcole, this.nom, this.specialite, this.nbEtudiant, this.adresse);
     this.ecoleService.deleteEcoleToServer(this.ecoleEncours);
     this.router.navigate(['/ecole']);
   }

@@ -1,11 +1,8 @@
-import {Observable, of, pipe, Subject, Subscription} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Collaborateur} from '../../models/Collaborateur.model';
 import {Evenement} from '../../models/Evenement.model';
-import {Ecole} from '../../models/Ecole.model';
-import {errorObject} from 'rxjs/internal-compatibility';
-import {catchError, map, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
 
 const httpOptions = {
@@ -39,11 +36,11 @@ export class EvenementService {
     );
     return evenement;
   }
-  getAdresseByEventAdresseGPS(gps: string) {
 
+  getAdresseByEventAdresseGPS(id: string) {
     const evenement = this.evenements.find(
       (s) => {
-        return s.adresse.gps === gps;
+        return s.adresse.gps === id;
       }
     );
     return evenement;
@@ -133,7 +130,6 @@ export class EvenementService {
       .pipe(
         tap( event => this.currentEventEdition = event )
       );
-
   }
 
   getNbEvenements(): Observable<number> {

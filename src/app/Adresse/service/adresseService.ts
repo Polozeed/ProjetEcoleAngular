@@ -1,6 +1,6 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable, of, Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Adresse} from '../../models/Adresse.model';
 import {EvenementService} from '../../evenement/service/evenement.service';
 import {tap} from 'rxjs/operators';
@@ -17,6 +17,7 @@ const httpOptions = {
 export class AdresseService {
 
   private adresseReturn: Adresse;
+  public adresseId: Adresse;
   private adresses: Adresse[] = [];
   ecoleSubject = new Subject<Adresse[]>();
 
@@ -65,5 +66,12 @@ export class AdresseService {
         }
       );
   }
+
+  getAdresseById(id: number) {
+    return this.httpClient
+      .get<Adresse>('http://localhost:8083/adresse/' + id, httpOptions);
+
+  }
+
 
 }

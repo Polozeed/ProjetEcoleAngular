@@ -2,6 +2,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px 2em;
+  width: auto;
+  margin-left: 1%;
 }
 
 .box :first-child {

@@ -1,5 +1,4 @@
 import {Adresse} from './Adresse.model';
-import {Observable} from 'rxjs';
 import DateTimeFormat = Intl.DateTimeFormat;
 
 export class Evenement {
